@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         BookDetailsFragment bookDetailsFragment = new BookDetailsFragment();
 
 
-        ArrayList<BookListFragment> bookListFragments;
+        //ArrayList<BookListFragment> bookListFragments;
 
         //gets reference of book list view
         ListView listView = findViewById(R.id.listViewBooks);
@@ -49,57 +49,45 @@ public class MainActivity extends AppCompatActivity {
         //gets a reference to that fragment
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame1);
 
+        if(singlePane){
+            if(fragment instanceof BookListFragment){
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+
+            getSupportFragmentManager().beginTransaction().add(R.id.frame1, viewPagerFragment).commit();
+        }
+        else{
+            if(fragment instanceof ViewPagerFragment){
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+            //adds the list view of books to the left of the screen in landscape
+            getSupportFragmentManager().beginTransaction().add(R.id.frame1, bookListFragment).commit();
+            //adds the book details to the right of the screen in landscape (frame 2)
+            getSupportFragmentManager().beginTransaction().add(R.id.frame2, bookDetailsFragment).commit();
+        }
 
 
 
 
         //displays the listview in portrait mode with the book titles
+        /*
         BookListFragment bookListFragment1 = BookListFragment.newInstance(getResources().getStringArray(R.array.books));
+
         Bundle bundle = new Bundle();
         bundle.putStringArray("books", books);
         bookListFragment1.setArguments(bundle);
+
+         */
 
         //getSupportFragmentManager().beginTransaction().add(R.id.layout1, bookListFragment1).commit();
 
 
 
+    }
 
-        //BookDetailsFragment bookDetailsFragment = new BookDetailsFragment();
-        //ViewPagerFragment viewPagerFragment =  ViewPagerFragment.newInstance(books);
-
-        //Bundle b = new Bundle();
-        //b.putString("title", books[0]);
-        //bookDetailsFragment.setArguments(b);
-
-        if(!singlePane){
-            getSupportFragmentManager().beginTransaction().add(R.id.frame1, bookListFragment1).commit();
-
-            getSupportFragmentManager().beginTransaction().add(R.id.frame2, bookDetailsFragment).commit();
-
-
-        }
-        else{
-            getSupportFragmentManager().beginTransaction().add(R.id.layout1, viewPagerFragment).commit();
-        }
-
-
-
-        /*
-        viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(),books));
-
-
-        //if(in landscape){
-            getSupportFragmentManager().beginTransaction().add(R.id.layoutList, bookListFragment1).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.layoutDetail, bookDetailsFragment).commit();
-        //}
-
-
-         */
-
-
-        //listView.setOnItemClickListener();
-
-
+    //@Override
+    public void bookSelected(String title){
+        //bookDetailsFragment.changeTitle(title);
     }
 
 }
