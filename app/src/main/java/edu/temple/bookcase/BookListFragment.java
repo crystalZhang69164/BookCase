@@ -53,6 +53,10 @@ public class BookListFragment extends Fragment {
         if(context instanceof  BookSelectedInterface){
             parent = context;
         }
+        else{
+            throw new RuntimeException();
+        }
+
 
     }
 

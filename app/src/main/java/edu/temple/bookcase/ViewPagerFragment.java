@@ -65,17 +65,16 @@ public class ViewPagerFragment extends Fragment {
 
 
 
-        ViewPager viewPager = view.findViewById(R.id.viewPager2);
-        viewPager.setAdapter(new MyFragmentAdapter(getFragmentManager()));
 
+
+        //
         for(int i = 0; i<title.length; i++){
 
             BookDetailsFragment bookFragment = BookDetailsFragment.newInstance(title[i]);
             bookDetailsFragmentArrayList.add(bookFragment);
         }
         //gets the reference to the view pager
-        viewPager = view.findViewById(R.id.viewPager2);
-        //sets the adapters for that view pager
+        ViewPager viewPager = view.findViewById(R.id.viewPager2);
         viewPager.setAdapter(new MyFragmentAdapter(getFragmentManager()));
 
        return view;

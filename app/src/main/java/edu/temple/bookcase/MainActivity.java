@@ -10,13 +10,14 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BookListFragment.BookSelectedInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPager pager;
         //ViewPagerAdapter pagerAdapter;
-        Boolean singlePane = (findViewById(R.id.frame2)) == null;
+        Boolean singlePane = (findViewById(R.id.frame2) == null);
 
         //gets the array of books from the string.xml file
         String[] books = getResources().getStringArray(R.array.books);
@@ -51,25 +52,32 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame1);
 
         BookListFragment bookListFragment1 = BookListFragment.newInstance(books);
-        Bundle bundle = new Bundle();
+        /*Bundle bundle = new Bundle();
         bundle.putStringArray("books", books);
-        bookListFragment1.setArguments(bundle);
+        bookListFragment1.setArguments(bundle);*/
 
 
 
 
-        //the view pager in portrait mode
-        if(!singlePane){
-
+        //the landscape mode fragment
+        if((findViewById(R.id.frame2) != null)){
+            Log.d("~~~~~~~~~~~~~~", "In if");
             getSupportFragmentManager().beginTransaction().add(R.id.frame1,bookListFragment1).commit();
 
             getSupportFragmentManager().beginTransaction().add(R.id.frame2, bookDetailsFragment).commit();
 
         }
         else{
-
-            getSupportFragmentManager().beginTransaction().add(R.id.layout1, viewPagerFragment).commit();
+            Log.d("~~~~~~~~~~","In else");
+            //the view pager in portrait mode
+            getSupportFragmentManager().beginTransaction().add(R.id.frame1, viewPagerFragment).commit();
         }
+
+
+
+
+
+
 
 
 
@@ -92,5 +100,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void bookSelected(String title) {
 
+    }
 }
